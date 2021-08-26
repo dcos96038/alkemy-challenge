@@ -5,7 +5,7 @@ const LayoutComponent = ({ children }) => {
     <div className="d-flex flex-column">
       <Navbar />
       <div className="container">{children}</div>
-      <div className="sticky-bottom text-white m-2 w-25">
+      <div className="sticky-bottom text-white m-2">
         Hecho por{" "}
         <a
           href="https://www.instagram.com/d_cos96/"
