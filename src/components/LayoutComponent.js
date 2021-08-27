@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import { AppContext } from "../Context/AppContext";
 import Navbar from "./Navbar";
 
 const LayoutComponent = ({ children }) => {
+  const { user } = useContext(AppContext);
+
   return (
     <div className="d-flex flex-column">
-      <Navbar />
+      {user ? <Navbar /> : ""}
       <div className="container">{children}</div>
       <div className="sticky-bottom text-white m-2">
         Hecho por{" "}
