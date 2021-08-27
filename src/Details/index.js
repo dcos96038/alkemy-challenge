@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getHero } from "../services";
 
 const Details = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     async function getData() {
@@ -79,6 +80,11 @@ const Details = () => {
             />
           </div>
         </div>
+      </div>
+      <div className="container d-flex justify-content-center mt-5">
+        <button className="btn btn-primary" onClick={() => history.push("/")}>
+          Volver a HOME
+        </button>
       </div>
     </div>
   );
