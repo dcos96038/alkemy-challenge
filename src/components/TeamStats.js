@@ -68,7 +68,11 @@ const TeamStats = () => {
           <h4>Peso promedio:</h4>
         </div>
         <div className="col-md-8">
-          <h4 className="fw-bold text-warning">{average[1][1]} KG</h4>
+          <h4 className="fw-bold text-warning">
+            {average[1][1] /
+              [...teamIDS.goods, ...teamIDS.bads].length.toFixed(2)}{" "}
+            KG
+          </h4>
         </div>
       </div>
       <div className="row my-3 justify-content-center">
@@ -76,7 +80,11 @@ const TeamStats = () => {
           <h4>Altura promedio:</h4>
         </div>
         <div className="col-md-8">
-          <h4 className="fw-bold text-warning">{average[0][1]} CM</h4>
+          <h4 className="fw-bold text-warning">
+            {average[0][1] /
+              [...teamIDS.goods, ...teamIDS.bads].length.toFixed(2)}{" "}
+            CM
+          </h4>
         </div>
       </div>
     </div>
