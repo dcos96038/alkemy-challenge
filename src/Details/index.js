@@ -33,8 +33,6 @@ const Details = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <div className="container text-white">
       <h1 className="text-center mb-4">{data.name}</h1>

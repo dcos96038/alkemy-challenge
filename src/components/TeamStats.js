@@ -4,8 +4,8 @@ import { getAppearance, getPowerstats } from "../services";
 import Stat from "./Stat";
 
 const TeamStats = () => {
-  const [totalStats, setTotalStats] = useState([]);
-  const [average, setAverage] = useState([]);
+  const [totalStats, setTotalStats] = useState();
+  const [average, setAverage] = useState();
 
   const { teamIDS } = useContext(AppContext);
 
@@ -24,20 +24,15 @@ const TeamStats = () => {
         setAverage(response);
       }
     }
-    if (teamIDS) {
-      getStatsList();
-      getAverageList();
-    } else {
-      setTotalStats([]);
-      setAverage([]);
-    }
+    getStatsList();
+    getAverageList();
   }, [teamIDS]);
 
   if (
-    totalStats === [] ||
-    totalStats.length <= 0 ||
-    average === [] ||
-    average.length <= 0
+    !totalStats ||
+    totalStats.length === 0 ||
+    !average ||
+    average.length === 0
   ) {
     return (
       <div className="container border rounded border-2 text-white pt-3 pb-2">

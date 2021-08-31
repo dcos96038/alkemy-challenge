@@ -20,15 +20,11 @@ const Home = () => {
 
   useEffect(() => {
     async function getHerosList() {
-      try {
-        const array = [...teamIDS.goods, ...teamIDS.bads];
-        const response = await getHeros(array);
-        if (response) {
-          setTeam(response);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
+      const array = [...teamIDS.goods, ...teamIDS.bads];
+      const response = await getHeros(array);
+      if (response) {
+        setTeam(response);
+        setLoading(false);
       }
     }
     getHerosList();
