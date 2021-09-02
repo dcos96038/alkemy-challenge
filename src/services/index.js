@@ -112,14 +112,14 @@ export async function getAppearance(ids) {
 
       const stats = data.map((e) => {
         return [
-          ["Height", e.height[1] !== "0 cm" ? e.height[1] : 0],
-          ["Weight", e.weight[1] !== "0 kg" ? e.weight[1] : 0],
+          ["Height", e.height[1] !== "0 cm" ? parseInt(e.height[1], 10) : 0],
+          ["Weight", e.weight[1] !== "0 kg" ? parseInt(e.weight[1], 10) : 0],
         ];
       });
 
       const total = stats.reduce((prev, next) => [
-        [prev[0][0], parseInt(prev[0][1]) + parseInt(next[0][1])],
-        [prev[1][0], parseInt(prev[1][1]) + parseInt(next[1][1])],
+        [prev[0][0], prev[0][1] + next[0][1]],
+        [prev[1][0], prev[1][1] + next[1][1]],
       ]);
 
       return total;
