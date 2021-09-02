@@ -1,15 +1,15 @@
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { AppContext } from "../Context/AppContext";
+import { actionLogoutUser } from "../reducers/userReducer";
 import SearchComponent from "./SearchComponent";
 
 const Navbar = () => {
-  const { setUser } = useContext(AppContext);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    window.localStorage.setItem("userToken", JSON.stringify(""));
-    setUser("");
+    window.localStorage.setItem("userToken", JSON.stringify(null));
+    dispatch(actionLogoutUser());
     history.push("/login");
   };
 

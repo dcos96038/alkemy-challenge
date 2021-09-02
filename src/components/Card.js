@@ -1,9 +1,18 @@
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AppContext } from "../Context/AppContext";
+import { actionAddOne, actionRemoveOne } from "../reducers/teamReducer";
 
 const Card = ({ hero }) => {
-  const { teamIDS, handleTeam } = useContext(AppContext);
+  const herosIds = useSelector((state) => state.team);
+  const dispatch = useDispatch();
+
+  const addHero = (alignment, id) => {
+    dispatch(actionAddOne(alignment, id));
+  };
+
+  const removeHero = (alignment, id) => {
+    dispatch(actionRemoveOne(alignment, id));
+  };
 
   return (
     <>
@@ -142,11 +151,11 @@ const Card = ({ hero }) => {
               Detalles
             </Link>
           </button>
-          {teamIDS.goods.includes(Number(hero.id)) ||
-          teamIDS.bads.includes(Number(hero.id)) ? (
+          {herosIds.goods.includes(Number(hero.id)) ||
+          herosIds.bads.includes(Number(hero.id)) ? (
             <button
               onClick={() =>
-                handleTeam(hero.biography.alignment, Number(hero.id))
+                removeHero(hero.biography.alignment, Number(hero.id))
               }
               className="btn btn-danger"
             >
@@ -154,9 +163,7 @@ const Card = ({ hero }) => {
             </button>
           ) : (
             <button
-              onClick={() =>
-                handleTeam(hero.biography.alignment, Number(hero.id))
-              }
+              onClick={() => addHero(hero.biography.alignment, Number(hero.id))}
               className="btn btn-success"
             >
               Agregar

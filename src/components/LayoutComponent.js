@@ -1,13 +1,12 @@
-import { useContext } from "react";
-import { AppContext } from "../Context/AppContext";
+import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 
 const LayoutComponent = ({ children }) => {
-  const { user } = useContext(AppContext);
+  const { user } = useSelector((state) => state.user);
 
   return (
     <div className="d-flex flex-column">
-      {user ? <Navbar /> : ""}
+      {user !== null ? <Navbar /> : ""}
       <div className="container">{children}</div>
       <div className="sticky-bottom text-white m-2">
         Hecho por{" "}

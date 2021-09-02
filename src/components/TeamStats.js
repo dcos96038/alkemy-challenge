@@ -1,24 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../Context/AppContext";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getAppearance, getPowerstats } from "../services";
 import Stat from "./Stat";
 
 const TeamStats = () => {
   const [totalStats, setTotalStats] = useState();
   const [average, setAverage] = useState();
-
-  const { teamIDS } = useContext(AppContext);
+  const team = useSelector((state) => state.team);
 
   useEffect(() => {
     async function getStatsList() {
-      const array = [...teamIDS.goods, ...teamIDS.bads];
+      const array = [...team.goods, ...team.bads];
       const response = await getPowerstats(array);
       if (response) {
         setTotalStats(response);
       }
     }
     async function getAverageList() {
-      const array = [...teamIDS.goods, ...teamIDS.bads];
+      const array = [...team.goods, ...team.bads];
       const response = await getAppearance(array);
       if (response) {
         setAverage(response);
@@ -26,7 +25,7 @@ const TeamStats = () => {
     }
     getStatsList();
     getAverageList();
-  }, [teamIDS]);
+  }, [team]);
 
   if (
     !totalStats ||
@@ -64,9 +63,7 @@ const TeamStats = () => {
         </div>
         <div className="col-md-8">
           <h4 className="fw-bold text-warning">
-            {(
-              average[1][1] / [...teamIDS.goods, ...teamIDS.bads].length
-            ).toFixed(2)}{" "}
+            {(average[1][1] / [...team.goods, ...team.bads].length).toFixed(2)}{" "}
             KG
           </h4>
         </div>
@@ -77,9 +74,7 @@ const TeamStats = () => {
         </div>
         <div className="col-md-8">
           <h4 className="fw-bold text-warning">
-            {(
-              average[0][1] / [...teamIDS.goods, ...teamIDS.bads].length
-            ).toFixed(2)}{" "}
+            {(average[0][1] / [...team.goods, ...team.bads].length).toFixed(2)}{" "}
             CM
           </h4>
         </div>

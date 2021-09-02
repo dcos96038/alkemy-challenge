@@ -1,34 +1,37 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardsList from "../components/CardsList";
 import TeamStats from "../components/TeamStats";
-import { AppContext } from "../Context/AppContext";
 import { getHeros } from "../services";
+import { useSelector, useDispatch } from "react-redux";
+import { actionAddAll } from "../reducers/teamReducer";
 
 const Home = () => {
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(true);
-
-  const { teamIDS, setTeamIDS } = useContext(AppContext);
+  const herosIds = useSelector((state) => state.team);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const heroList = window.localStorage.getItem("teamList");
     if (heroList) {
       const list = JSON.parse(heroList);
-      setTeamIDS(list);
+      dispatch(actionAddAll(list));
     }
-  }, [setTeamIDS]);
+  }, [dispatch]);
 
   useEffect(() => {
     async function getHerosList() {
-      const array = [...teamIDS.goods, ...teamIDS.bads];
-      const response = await getHeros(array);
-      if (response) {
-        setTeam(response);
-        setLoading(false);
+      if (herosIds) {
+        const array = [...herosIds.goods, ...herosIds.bads];
+        const response = await getHeros(array);
+        if (response) {
+          setTeam(response);
+          setLoading(false);
+        }
       }
     }
     getHerosList();
-  }, [teamIDS]);
+  }, [herosIds]);
 
   if (loading) {
     return (
@@ -47,7 +50,7 @@ const Home = () => {
   return (
     <>
       <div className="mb-5">
-        <TeamStats team={teamIDS} />
+        <TeamStats team={herosIds} />
       </div>
       <CardsList team={team} />
     </>

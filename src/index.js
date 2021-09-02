@@ -4,13 +4,23 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
-import { AppProvider } from "./Context/AppContext";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import { teamReducer } from "./reducers/teamReducer";
+import { userReducer } from "./reducers/userReducer";
+
+const store = createStore(
+  combineReducers({
+    team: teamReducer,
+    user: userReducer,
+  })
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppProvider>
+    <Provider store={store}>
       <App />
-    </AppProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

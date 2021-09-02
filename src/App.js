@@ -1,23 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./App.css";
 import LayoutComponent from "./components/LayoutComponent";
-import { AppContext } from "./Context/AppContext";
 import Details from "./Details";
 import Home from "./Home";
 import Login from "./Login";
+import { actionLoginUser } from "./reducers/userReducer";
 import Search from "./Search";
 
 function App() {
-  const { user, setUser } = useContext(AppContext);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const token = window.localStorage.getItem("userToken");
     if (token) {
-      const user = JSON.parse(token);
-      setUser(user);
+      const userToken = JSON.parse(token);
+      dispatch(actionLoginUser(userToken));
     }
-  }, [setUser]);
+  }, [dispatch]);
 
   return (
     <>
@@ -27,16 +29,16 @@ function App() {
             <div className="py-5">
               <Switch>
                 <Route exact path="/">
-                  {user ? <Home /> : <Redirect to="/login" />}
+                  {user !== null ? <Home /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/search/:searchString">
-                  {user ? <Search /> : <Redirect to="/login" />}
+                  {user !== null ? <Search /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/details/:id">
-                  {user ? <Details /> : <Redirect to="/login" />}
+                  {user !== null ? <Details /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/login">
-                  {!user ? <Login /> : <Redirect to="/" />}
+                  {user === null ? <Login /> : <Redirect to="/" />}
                 </Route>
               </Switch>
             </div>

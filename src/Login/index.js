@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { AppContext } from "../Context/AppContext";
+import { actionLoginUser } from "../reducers/userReducer";
 import { loginService } from "../services";
 
 const LoginSchema = Yup.object().shape({
@@ -13,9 +14,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const { setUser } = useContext(AppContext);
   const [errorMsg, setErrorMsg] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLogin = async (email, password) => {
     try {
@@ -25,7 +26,7 @@ const Login = () => {
           "userToken",
           JSON.stringify(response.data.token)
         );
-        setUser(response.data.token);
+        dispatch(actionLoginUser(response.data.token));
         history.push("/");
       }
     } catch (error) {
